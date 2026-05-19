@@ -8,9 +8,6 @@ animation to .chan files, which are simple text files with lines of the form:
 tx ty tz rx ry rz focal_length aperture"""
 
 # Global variable to hold the UI widget instance
-from chan.maya_io import MayaChanBackend
-
-
 _widget = None
 
 def ui(backend=None):
@@ -26,7 +23,7 @@ def ui(backend=None):
         try:
             import maya.cmds
             from .maya_io import backend as maya_backend
-            backend: MayaChanBackend = maya_backend
+            backend = maya_backend
         except ImportError:
             pass
         if backend is None:
