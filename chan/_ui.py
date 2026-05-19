@@ -10,6 +10,7 @@ current playback start frame."""
 import os
 
 from PySide2 import QtWidgets
+from . import __version__
 
 
 class ChanExporterWidget(QtWidgets.QWidget):
@@ -21,7 +22,7 @@ class ChanExporterWidget(QtWidgets.QWidget):
                 "(e.g., maya_io.backend, nuke_io.backend, etc.)"
             )
         self.backend = backend
-        self.setWindowTitle("Chan Exporter/Importer")
+        self.setWindowTitle(f"Chan Exporter/Importer - v {__version__}")
         self.resize(500, 180)
         self.main_layout = QtWidgets.QVBoxLayout(self)
         self.tabs = QtWidgets.QTabWidget()
