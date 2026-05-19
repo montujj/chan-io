@@ -8,12 +8,14 @@ All notable changes to Chan I/O are documented here.
 
 ### Fixed
 - CI pipeline failing on Ubuntu 24.04 — removed Python 3.7 from test matrix
-  (EOL, not available on Ubuntu 24.04) and replaced with 3.9, 3.11, 3.12
+  (EOL since June 2023, no longer available on Ubuntu 24.04) and replaced
+  with 3.9, 3.11, 3.12
 - `chan.ui()` becoming uncallable after first invocation — caused by a name
   collision between the `ui()` function in `__init__.py` and the `chan/ui.py`
   submodule; fixed by renaming `ui.py` to `_ui.py`
-- `PySide2` removed from `install_requires` — it is bundled by the DCC host
-  (Maya/Nuke) and cannot be pip-installed on Python 3.11+
+- `PySide2` removed from `install_requires` — PySide2's last release only
+  supports up to Python 3.10 and cannot be pip-installed on 3.11+; it is
+  also bundled by the DCC host (Maya/Nuke) so pip should never install it
 - Top-level PySide2 import in `__init__.py` made lazy so the `chan` package
   can be imported in any environment without Qt installed
 - Removed broken CI verify steps for `maya_io` and `nuke_io` — those modules
