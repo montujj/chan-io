@@ -1,12 +1,11 @@
 """Chan I/O Tool: A utility for exporting animation channels from DCC applications like Maya & Nuke."""
 
-from .ui import ChanExporterWidget
-
 # Global variable to hold the UI widget instance
 _widget = None
 
 def ui(backend=None):
     """Launch the Chan I/O Tool UI, auto-detecting DCC backend unless provided."""
+    from .ui import ChanExporterWidget  # lazy — requires PySide2 and a running DCC
 
     global _widget
     if backend is None:

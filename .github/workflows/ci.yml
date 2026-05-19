@@ -36,5 +36,3 @@ jobs:
     - name: Verify package imports correctly
       run: |
         python -c "from chan.dcc_interface import ChanDCCInterface; print('dcc_interface import OK')"
-        python -c "from chan.maya_io import MayaChanBackend; print('maya_io import OK')"
-        python -c "from chan.nuke_io import NukeChanBackend; print('nuke_io import OK')"
