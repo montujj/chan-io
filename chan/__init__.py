@@ -12,6 +12,28 @@ __version__ = "1.1.0"
 # Global variable to hold the UI widget instance
 _widget = None
 
+
+def unload():
+    """Remove all submodules from sys.modules so changes are picked up on next import."""
+    import inspect
+    import sys
+
+    package_name = __name__
+    delete = []
+    for key, module in list(sys.modules.items()):
+        try:
+            module_file_path = inspect.getfile(module).lower()
+            if module_file_path == __file__.lower():
+                continue
+            if key == package_name or key.startswith(f"{package_name}."):
+                delete.append(key)
+        except Exception:
+            pass
+
+    for key in delete:
+        del sys.modules[key]
+
+
 def ui(backend=None):
     """Launch the Chan I/O Tool UI, auto-detecting DCC backend unless provided."""
 
