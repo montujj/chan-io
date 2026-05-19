@@ -4,6 +4,21 @@ All notable changes to Chan I/O are documented here.
 
 ---
 
+## [1.2.0] - 2026-05-19
+
+### Added
+- `chan.unload()` function in `__init__.py` to remove all submodules from
+  `sys.modules`, allowing Maya/Nuke to pick up code changes without restarting
+- Window title in `ChanExporterWidget` now displays the current version
+  e.g. `Chan Exporter/Importer - v1.2.0`
+
+### Changed
+- CI workflow updated to trigger on additional branches: `mjdev`, `dev`,
+  `feature/**`, `bugfix/**`, and `VFX-*` ticket-numbered branches
+- Version bumped to `1.2.0` in `setup.py` and `chan/__init__.py`
+
+---
+
 ## [1.1.0] - 2026-05-18
 
 ### Fixed
