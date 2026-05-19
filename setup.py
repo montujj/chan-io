@@ -11,9 +11,7 @@ setup(
     url="https://github.com/montujj/chan-io",
     packages=find_packages(),
     python_requires=">=3.7",
-    install_requires=[
-        "PySide2>=5.15.0",
-    ],
+    install_requires=[],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
