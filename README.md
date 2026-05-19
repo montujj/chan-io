@@ -6,6 +6,18 @@ A DCC-agnostic utility for exporting and importing `.chan` camera animation file
 
 ---
 
+## Screenshots
+
+**Export Tab** — set export path, frame range mode, and export to `.chan`
+
+![Export Tab](images/chan.JPG)
+
+**Import Tab** — select a `.chan` file and preview data before applying to a camera node
+
+![Import Tab with Preview](images/chan2.JPG)
+
+---
+
 ## Supported DCCs
 - Autodesk Maya
 - Foundry Nuke
@@ -79,7 +91,7 @@ chan-io/
 │   ├── dcc_interface.py    # Abstract base class for DCC backends
 │   ├── maya_io.py          # Maya-specific backend
 │   ├── nuke_io.py          # Nuke-specific backend
-│   └── ui.py               # PySide2 UI
+│   └── _ui.py              # PySide2 UI (internal)
 ├── tests/
 │   ├── __init__.py
 │   ├── test_dcc_interface.py
