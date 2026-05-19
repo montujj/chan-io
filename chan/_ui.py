@@ -1,29 +1,29 @@
-"""Chan Exporter/Importer UI. 
+"""Chan Exporter/Importer UI.
 
-Provides a simple interface to export camera animation to a .chan file and import it back to a 
-camera in Maya. The .chan file format is a simple text format where each line contains: 
-tx ty tz rx ry rz focal_length aperture. The exporter allows you to choose the frame range 
-(full, start/end, or single frame) and the importer applies the to the selected camera starting 
+Provides a simple interface to export camera animation to a .chan file and import it back to a
+camera in Maya. The .chan file format is a simple text format where each line contains:
+tx ty tz rx ry rz focal_length aperture. The exporter allows you to choose the frame range
+(full, start/end, or single frame) and the importer applies the to the selected camera starting
 from the current playback start frame."""
 
+import os
 
 from PySide2 import QtWidgets
-import os
-from chan.dcc_interface import ChanDCCInterface
 
 
 class ChanExporterWidget(QtWidgets.QWidget):
     def __init__(self, parent=None, backend=None):
         super(ChanExporterWidget, self).__init__(parent)
         if backend is None:
-            raise RuntimeError("A DCC backend must be provided to ChanExporterWidget (e.g., maya_io.backend, nuke_io.backend, etc.)")
+            raise RuntimeError(
+                "A DCC backend must be provided to ChanExporterWidget (e.g., maya_io.backend, nuke_io.backend, etc.)"
+            )
         self.backend = backend
         self.setWindowTitle("Chan Exporter/Importer")
         self.resize(500, 180)
-        self.layout = QtWidgets.QVBoxLayout(self)
+        self.main_layout = QtWidgets.QVBoxLayout(self)
         self.tabs = QtWidgets.QTabWidget()
-        # self.tabs.setStyleSheet("QTabBar::tab { min-width: 230px; font-size: 14px; }")  # Wider tabs, larger font
-        self.layout.addWidget(self.tabs)
+        self.main_layout.addWidget(self.tabs)
         self.export_tab = QtWidgets.QWidget()
         self.import_tab = QtWidgets.QWidget()
         self.tabs.addTab(self.export_tab, "Export")
@@ -160,15 +160,20 @@ class ChanExporterWidget(QtWidgets.QWidget):
         try:
             trn, shape = self.backend.get_selected()
 
-            # Only require shape if the backend actually needs it (e.g., Maya). For Nuke, ignore shape.
-            # If shape is not required, allow export if trn is present.
-            require_shape = hasattr(self.backend, 'REQUIRE_SHAPE') and self.backend.REQUIRE_SHAPE
+            # Only require shape if the backend needs it (e.g. Maya).
+            # Nuke has no shape concept so we only need the transform.
+            require_shape = (
+                hasattr(self.backend, "REQUIRE_SHAPE")
+                and self.backend.REQUIRE_SHAPE
+            )
 
             if not trn or (require_shape and not shape):
                 QtWidgets.QMessageBox.warning(
-                    self, "Error", "Select a transform node{} to export chan file.".format(
-                        " (and shape)" if require_shape else ""
-                    )
+                    self,
+                    "Error",
+                    f"Select a transform node"
+                    f"{' (and shape)' if require_shape else ''}"
+                    f" to export chan file.",
                 )
                 return
 
