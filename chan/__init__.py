@@ -7,6 +7,8 @@ This module provides a DCC-agnostic interface and UI for exporting
 animation to .chan files, which are simple text files with lines of the form:
 tx ty tz rx ry rz focal_length aperture"""
 
+__version__ = "1.1.0"
+
 # Global variable to hold the UI widget instance
 _widget = None
 

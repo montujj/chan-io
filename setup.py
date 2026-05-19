@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="chan-io",
-    version="1.0.0",
+    version="1.1.0",
     author="Montu Jariwala",
     author_email="montujj@gmail.com",
     description="Chan I/O Tool - Export/Import .chan camera animation files for Maya and Nuke",
