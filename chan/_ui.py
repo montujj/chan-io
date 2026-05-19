@@ -1,10 +1,11 @@
 """Chan Exporter/Importer UI.
 
-Provides a simple interface to export camera animation to a .chan file and import it back to a
-camera in Maya. The .chan file format is a simple text format where each line contains:
-tx ty tz rx ry rz focal_length aperture. The exporter allows you to choose the frame range
-(full, start/end, or single frame) and the importer applies the to the selected camera starting
-from the current playback start frame."""
+Provides a simple interface to export camera animation to a .chan file and 
+import it back to a camera in Maya. The .chan file format is a simple text 
+format where each line contains: tx ty tz rx ry rz focal_length aperture. The 
+exporter allows you to choose the frame range (full, start/end, or single 
+frame) and the importer applies the to the selected camera starting from the 
+current playback start frame."""
 
 import os
 
@@ -16,7 +17,8 @@ class ChanExporterWidget(QtWidgets.QWidget):
         super(ChanExporterWidget, self).__init__(parent)
         if backend is None:
             raise RuntimeError(
-                "A DCC backend must be provided to ChanExporterWidget (e.g., maya_io.backend, nuke_io.backend, etc.)"
+                "A DCC backend must be provided to ChanExporterWidget "
+                "(e.g., maya_io.backend, nuke_io.backend, etc.)"
             )
         self.backend = backend
         self.setWindowTitle("Chan Exporter/Importer")
@@ -85,7 +87,8 @@ class ChanExporterWidget(QtWidgets.QWidget):
 
         layout.addWidget(
             QtWidgets.QLabel(
-                "Chan file will contain: tx ty tz rx ry rz focal_length aperture"
+                ("Chan file will contain: tx ty tz rx ry rz focal_length "
+                 "aperture")
             )
         )
         layout.addStretch()
@@ -114,7 +117,10 @@ class ChanExporterWidget(QtWidgets.QWidget):
 
     def _browse_export(self):
         path, _ = QtWidgets.QFileDialog.getSaveFileName(
-            self, "Export Chan File", "", "Chan Files (*.chan);;All Files (*)"
+            self, 
+            "Export Chan File", 
+            "", 
+            "Chan Files (*.chan);;All Files (*)"
         )
         if path:
             self.export_path.setText(path)
@@ -124,7 +130,10 @@ class ChanExporterWidget(QtWidgets.QWidget):
         """Open file dialog to select .chan file for import."""
 
         path, _ = QtWidgets.QFileDialog.getOpenFileName(
-            self, "Import Chan File", "", "Chan Files (*.chan);;All Files (*)"
+            self, 
+            "Import Chan File",
+            "", 
+            "Chan Files (*.chan);;All Files (*)"
         )
         if path:
             self.import_path.setText(path)
@@ -177,12 +186,22 @@ class ChanExporterWidget(QtWidgets.QWidget):
                 )
                 return
 
-            num_frames = self.backend.export_chan(path, trn, shape, start, end)
+            num_frames = self.backend.export_chan(
+                path,
+                trn,
+                shape,
+                start,
+                end
+            )
             QtWidgets.QMessageBox.information(
-                self, "Success", f"Exported {num_frames} frames to {path}"
+                self, 
+                "Success",
+                f"Exported {num_frames} frames to {path}"
             )
         except Exception as e:
-            QtWidgets.QMessageBox.critical(self, "Error", str(e))
+            QtWidgets.QMessageBox.critical(
+                self, "Error", str(e)
+            )
 
     def _show_import_preview(self, lines):
         msg = "".join(lines[:10]) if lines else "File is empty."
@@ -194,18 +213,22 @@ class ChanExporterWidget(QtWidgets.QWidget):
         text_edit.setReadOnly(True)
         text_edit.setPlainText(msg)
         layout.addWidget(text_edit)
-        btn_box = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Ok)
+        btn_box = QtWidgets.QDialogButtonBox(
+            QtWidgets.QDialogButtonBox.Ok
+        )
         btn_box.accepted.connect(preview_dialog.accept)
         layout.addWidget(btn_box)
         preview_dialog.exec_()
 
     def _import_chan(self):
-        """Import a .chan file and apply animation to the selected transform node."""
+        """Import a .chan file & apply animation to selected transform node."""
 
         path = self.import_path.text()
         if not path or not os.path.exists(path):
             QtWidgets.QMessageBox.warning(
-                self, "Error", "Please specify a valid import path."
+                self,
+                "Error",
+                "Please specify a valid import path."
             )
             return
         try:
@@ -215,12 +238,18 @@ class ChanExporterWidget(QtWidgets.QWidget):
             trn, _ = self.backend.get_selected()
             if not trn:
                 QtWidgets.QMessageBox.warning(
-                    self, "Error", "Select a transform node to import to."
+                    self,
+                    "Error",
+                    "Select a transform node to import to."
                 )
                 return
             self.backend.import_chan(path, trn)
             QtWidgets.QMessageBox.information(
-                self, "Success", f"Imported chan file to {trn}"
+                self, 
+                "Success",
+                f"Imported chan file to {trn}"
             )
         except Exception as e:
-            QtWidgets.QMessageBox.critical(self, "Error", str(e))
+            QtWidgets.QMessageBox.critical(
+                self, "Error", str(e)
+            )
