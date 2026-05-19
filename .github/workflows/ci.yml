@@ -2,7 +2,13 @@ name: Chan IO CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches:
+      - main
+      - mjdev
+      - dev
+      - 'feature/**'
+      - 'bugfix/**'
+      - 'VFX-*'
   pull_request:
     branches: [ main ]
 
