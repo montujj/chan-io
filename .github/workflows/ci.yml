@@ -1,0 +1,40 @@
+name: Chan IO CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.9', '3.11']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-mock
+        pip install -e .
+
+    - name: Run tests
+      run: |
+        pytest tests/ -v
+
+    - name: Verify package imports correctly
+      run: |
+        python -c "from chan.dcc_interface import ChanDCCInterface; print('dcc_interface import OK')"
+        python -c "from chan.maya_io import MayaChanBackend; print('maya_io import OK')"
+        python -c "from chan.nuke_io import NukeChanBackend; print('nuke_io import OK')"
